@@ -1,6 +1,7 @@
 import { useCtfBusinessInfoQuery } from '@src/components/features/ctf-components/ctf-business-info/__generated/business-info.generated';
 import { useCtfCtaQuery } from '@src/components/features/ctf-components/ctf-cta/__generated/ctf-cta.generated';
 import { useCtfDuplexQuery } from '@src/components/features/ctf-components/ctf-duplex/__generated/ctf-duplex.generated';
+import { useCtfFeaturedProductQuery } from '@src/components/features/ctf-components/ctf-featured-product/__generated/ctf-featured-product.generated';
 import { useCtfHeroBannerQuery } from '@src/components/features/ctf-components/ctf-hero-banner/__generated/ctf-hero-banner.generated';
 import { useCtfInfoBlockQuery } from '@src/components/features/ctf-components/ctf-info-block/__generated/ctf-info-block.generated';
 import { useCtfPersonQuery } from '@src/components/features/ctf-components/ctf-person/__generated/ctf-person.generated';
@@ -23,6 +24,7 @@ export const prefetchMap = {
   ComponentCta: useCtfCtaQuery,
   ComponentHeroBanner: useCtfHeroBannerQuery,
   ComponentDuplex: useCtfDuplexQuery,
+  ComponentFeaturedProduct: useCtfFeaturedProductQuery,
   ComponentInfoBlock: useCtfInfoBlockQuery,
   ComponentTextBlock: useCtfTextBlockQuery,
   ComponentQuote: useCtfQuoteQuery,

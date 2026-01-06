@@ -114,8 +114,10 @@ export const CtfNavigation = (props: NavigationFieldsFragment) => {
                   >
                     {!menuItem.link ? (
                       menuItem.groupName
-                    ) : (
+                    ) : 'slug' in menuItem.link && menuItem.link.slug ? (
                       <Link href={`/${menuItem.link.slug}`}>{menuItem.groupName}</Link>
+                    ) : (
+                      menuItem.groupName
                     )}
                     {!menuItem.link && menuItem.children && (
                       <ul className={classes.submenu}>

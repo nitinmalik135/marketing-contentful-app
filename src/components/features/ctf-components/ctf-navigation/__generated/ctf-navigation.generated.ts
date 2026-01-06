@@ -6,17 +6,20 @@ import { PageLinkFieldsFragmentDoc } from '../../../page-link/__generated/page-l
 import { MenuGroupFieldsFragmentDoc } from '../../../../../lib/shared-fragments/__generated/ctf-menuGroup.generated';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { customFetcher } from '@src/lib/fetchConfig';
-export type NavigationFieldsFragment = { __typename?: 'NavigationMenuCollection', items: Array<{ __typename?: 'NavigationMenu', menuItemsCollection?: { __typename?: 'NavigationMenuMenuItemsCollection', items: Array<{ __typename: 'MenuGroup', groupName?: string | null, sys: { __typename?: 'Sys', id: string }, link?: (
-          { __typename?: 'Page' }
-          & PageLinkFieldsFragment
-        ) | null, children?: (
+export type NavigationFieldsFragment = { __typename?: 'NavigationMenuCollection', items: Array<{ __typename?: 'NavigationMenu', menuItemsCollection?: { __typename?: 'NavigationMenuMenuItemsCollection', items: Array<{ __typename: 'MenuGroup', groupName?: string | null, sys: { __typename?: 'Sys', id: string }, link?:
+          | { __typename?: 'Category' }
+          | (
+            { __typename?: 'Page' }
+            & PageLinkFieldsFragment
+          )
+         | null, children?: (
           { __typename?: 'MenuGroupFeaturedPagesCollection' }
           & MenuGroupFieldsFragment
         ) | null } | null> } | null } | null> };
 
 export type CtfNavigationQueryVariables = Types.Exact<{
-  locale?: Types.InputMaybe<Types.Scalars['String']>;
-  preview?: Types.InputMaybe<Types.Scalars['Boolean']>;
+  locale?: Types.InputMaybe<Types.Scalars['String']['input']>;
+  preview?: Types.InputMaybe<Types.Scalars['Boolean']['input']>;
 }>;
 
 
@@ -24,6 +27,7 @@ export type CtfNavigationQuery = { __typename?: 'Query', navigationMenuCollectio
     { __typename?: 'NavigationMenuCollection' }
     & NavigationFieldsFragment
   ) | null };
+
 
 export const NavigationFieldsFragmentDoc = `
     fragment NavigationFields on NavigationMenuCollection {
@@ -55,20 +59,22 @@ export const CtfNavigationDocument = `
     ${NavigationFieldsFragmentDoc}
 ${PageLinkFieldsFragmentDoc}
 ${MenuGroupFieldsFragmentDoc}`;
+
 export const useCtfNavigationQuery = <
       TData = CtfNavigationQuery,
       TError = unknown
     >(
       variables?: CtfNavigationQueryVariables,
       options?: UseQueryOptions<CtfNavigationQuery, TError, TData>
-    ) =>
-    useQuery<CtfNavigationQuery, TError, TData>(
+    ) => {
+    
+    return useQuery<CtfNavigationQuery, TError, TData>(
       variables === undefined ? ['CtfNavigation'] : ['CtfNavigation', variables],
       customFetcher<CtfNavigationQuery, CtfNavigationQueryVariables>(CtfNavigationDocument, variables),
       options
-    );
+    )};
 
 useCtfNavigationQuery.getKey = (variables?: CtfNavigationQueryVariables) => variables === undefined ? ['CtfNavigation'] : ['CtfNavigation', variables];
-;
+
 
 useCtfNavigationQuery.fetcher = (variables?: CtfNavigationQueryVariables, options?: RequestInit['headers']) => customFetcher<CtfNavigationQuery, CtfNavigationQueryVariables>(CtfNavigationDocument, variables, options);

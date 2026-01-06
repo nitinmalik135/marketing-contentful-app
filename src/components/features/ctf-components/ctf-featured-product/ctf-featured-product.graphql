@@ -1,0 +1,25 @@
+fragment FeaturedProductFields on ComponentFeaturedProduct {
+  __typename
+  sys {
+    id
+  }
+  internalName
+  eyebrow
+  imageDisplayPosition
+  product {
+    __typename
+    sys {
+      id
+    }
+    ... on Product {
+      productDetails
+    }
+  }
+}
+
+query CtfFeaturedProduct($id: String!, $locale: String, $preview: Boolean) {
+  componentFeaturedProduct(id: $id, locale: $locale, preview: $preview) {
+    ...FeaturedProductFields
+  }
+}
+
