@@ -79,22 +79,39 @@ module.exports = withPlugins(plugins, {
   },
 
   webpack(config, options) {
-    if (!options.isServer || process.env.circularDependencies) {
-      import('circular-dependency-plugin').then(({ default: CircularDependencyPlugin }) => {
-        config.plugins.push(
-          new CircularDependencyPlugin({
-            exclude: /a\.js|node_modules/,
-            failOnError: false,
-            allowAsyncCycles: true,
-            cwd: process.cwd(),
-          }),
-        );
-      });
-    }
+    // Note: circular-dependency-plugin disabled for Windows compatibility
+    // To enable, uncomment and ensure the package is installed
+    // if (!options.isServer || process.env.circularDependencies) {
+    //   const CircularDependencyPlugin = require('circular-dependency-plugin');
+    //   config.plugins.push(
+    //     new CircularDependencyPlugin({
+    //       exclude: /a\.js|node_modules/,
+    //       failOnError: false,
+    //       allowAsyncCycles: true,
+    //       cwd: process.cwd(),
+    //     }),
+    //   );
+    // }
 
+    // SVG loader configuration (Windows-compatible)
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      issuer: /\.[jt]sx?$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: [
+                {
+                  name: 'removeViewBox',
+                  active: false,
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     includePolyfills(config);
